@@ -3,6 +3,7 @@ package com.cursoudemy.workshopmongo.resources;
 import com.cursoudemy.workshopmongo.domain.Post;
 import com.cursoudemy.workshopmongo.domain.User;
 import com.cursoudemy.workshopmongo.dto.UserDTO;
+import com.cursoudemy.workshopmongo.resources.util.URL;
 import com.cursoudemy.workshopmongo.services.PostService;
 import com.cursoudemy.workshopmongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,12 @@ public class PostResource {
     public ResponseEntity<Post> findById(@PathVariable String id) {
         Post obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
+    }
+
+    @GetMapping(value = "/titlesearch")
+    public ResponseEntity<List<Post>> findByTitle(@RequestParam(value="text", defaultValue = "") String text) {
+        text = URL.decodeParam(text);
+        List<Post> list = service.findByTitle(text);
+        return ResponseEntity.ok().body(list);
     }
 }
